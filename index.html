@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basti Ki Pathshala - Education is the Foundation of Change</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Minimal Color Palette */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --border: #e2e8f0;
+        }
+        
+        /* Mobile-first responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Mobile typography */
+            h1 { font-size: 2rem !important; line-height: 1.2; }
+            h2 { font-size: 1.75rem !important; line-height: 1.3; }
+            h3 { font-size: 1.5rem !important; line-height: 1.4; }
+            h4 { font-size: 1.25rem !important; line-height: 1.4; }
+            
+            /* Mobile spacing */
+            .py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            .py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+            .py-12 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+            .mb-12 { margin-bottom: 2rem !important; }
+            .mb-8 { margin-bottom: 1.5rem !important; }
+            .mb-6 { margin-bottom: 1rem !important; }
+            
+            /* Mobile grid adjustments */
+            .grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .lg\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            
+            /* Mobile buttons */
+            .flex-col.sm\:flex-row { flex-direction: column !important; }
+            .gap-4 { gap: 0.75rem !important; }
+            
+            /* Mobile cards */
+            .card-float { margin-bottom: 1rem; }
+            .volunteer-card { margin-bottom: 1rem; }
+            
+            /* Mobile form adjustments */
+            .md\:grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            .grid-cols-2.md\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            
+            /* Mobile timeline */
+            .timeline-item { padding-left: 2rem !important; }
+            .timeline-item::before { left: 8px !important; }
+            .timeline-dot { left: -4px !important; width: 1.5rem !important; height: 1.5rem !important; }
+        }
+        
+        @media (max-width: 640px) {
+            /* Extra small mobile adjustments */
+            .text-4xl.md\:text-6xl { font-size: 1.875rem !important; }
+            .text-xl.md\:text-2xl { font-size: 1.125rem !important; }
+            .text-3xl.md\:text-4xl { font-size: 1.5rem !important; }
+            
+            /* Single column for very small screens */
+            .grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-4 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            
+            /* Mobile padding adjustments */
+            .p-8 { padding: 1rem !important; }
+            .p-6 { padding: 0.75rem !important; }
+            .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            
+            /* Mobile scroll indicator */
+            .scroll-indicator { right: 12px !important; }
+            .scroll-dot { width: 6px !important; height: 6px !important; }
+            
+            /* Mobile back button */
+            .back-button { 
+                top: 80px !important; 
+                left: 12px !important; 
+                width: 40px !important; 
+                height: 40px !important; 
+            }
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+        
+        .section-transition {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+        
+        .form-success {
+            display: none;
+        }
+        
+        .form-success.active {
+            display: block;
+        }
+        
+        .volunteer-card:hover {
+            transform: translateY(-8px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+        }
+        
+        .timeline-dot {
+            position: relative;
+            z-index: 1;
+            background: var(--primary);
+        }
+        
+        /* Smooth Scroll Background */
+        .scroll-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, var(--surface-alt) 0%, var(--accent) 50%, var(--surface) 100%);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: -1;
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .card-float {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
+        }
+        
+        .card-float:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(37, 99, 235, 0.08);
+            border-color: var(--primary-light);
+        }
+        
+        .text-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--surface-alt), var(--accent));
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .pulse-icon {
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 50%;
+            right: 24px;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        /* Mobile touch improvements */
+        @media (max-width: 768px) {
+            .scroll-indicator {
+                right: 16px;
+                gap: 8px;
+            }
+            
+            /* Larger touch targets for mobile */
+            .magnetic-btn, button {
+                min-height: 44px;
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+            
+            /* Mobile navigation improvements */
+            .mobile-menu {
+                backdrop-filter: blur(20px);
+                background: rgba(255, 255, 255, 0.95);
+            }
+            
+            /* Better mobile form inputs */
+            input, textarea, select {
+                min-height: 44px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            /* Mobile card spacing */
+            .card-float {
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Mobile hero adjustments */
+            .hero-gradient {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            
+            /* Mobile volunteer cards */
+            .volunteer-card {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            /* Mobile timeline adjustments */
+            .timeline-item {
+                padding-left: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Mobile team cards */
+            .text-center.bg-white.p-6 {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        .scroll-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.3);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scroll-dot.active {
+            background: var(--primary);
+            transform: scale(1.5);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }
+        
+        .magnetic-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 100px;
+            left: 24px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08);
+        }
+        
+        .back-button:hover {
+            transform: scale(1.1);
+            background: var(--surface);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.12);
+            border-color: var(--primary-light);
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.02;
+            border-radius: 50%;
+        }
+        
+        .shape-1 {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            top: 15%;
+            left: 8%;
+        }
+        
+        .shape-2 {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-light);
+            top: 65%;
+            right: 12%;
+        }
+        
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: var(--secondary);
+            bottom: 25%;
+            left: 15%;
+        }
+        
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Animated Background -->
+    <div class="scroll-bg"></div>
+    
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-dot active" data-section="home"></div>
+        <div class="scroll-dot" data-section="about"></div>
+        <div class="scroll-dot" data-section="volunteer"></div>
+    </div>
+    
+    <!-- Fixed Header -->
+    <header class="fixed top-0 w-full bg-white shadow-lg z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="showSection('home')">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-slate-900">Basti Ki Pathshala</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" onclick="showSection('home')" class="nav-link text-slate-600 hover:text-blue-600 font-medium transition-colors">Home</a>
+                    <a href="#" onclick="showSection('about')" class="nav-link text-slate-600 hover:text-blue-600 font-medium transition-colors">About Us</a>
+                    <a href="#" onclick="showSection('volunteer')" class="nav-link text-slate-600 hover:text-blue-600 font-medium transition-colors">Volunteer</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-slate-600" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-slate-200">
+                <div class="py-4 px-4 space-y-4">
+                    <a href="#" onclick="showSection('home'); toggleMobileMenu()" class="block text-slate-600 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" onclick="showSection('about'); toggleMobileMenu()" class="block text-slate-600 hover:text-blue-600 font-medium">About Us</a>
+                    <a href="#" onclick="showSection('volunteer'); toggleMobileMenu()" class="block text-slate-600 hover:text-blue-600 font-medium">Volunteer</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- HOME SECTION -->
+        <section id="home" class="section-transition">
+            <!-- Hero Section -->
+            <div class="hero-gradient text-white py-20">
+                <div class="container mx-auto px-4 text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">Education is the Foundation of Change</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">Empowering underprivileged children through quality education and creating brighter futures for communities across Delhi</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showSection('volunteer')" class="magnetic-btn bg-white text-blue-600 px-8 py-3 font-semibold hover:bg-slate-50 transition-colors">
+                            Join Our Mission
+                        </button>
+                        <button onclick="showSection('about')" class="magnetic-btn border-2 border-white text-white px-8 py-3 font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Statistics -->
+            <div class="py-16 bg-slate-50 relative">
+                <div class="parallax-bg"></div>
+                <div class="container mx-auto px-4">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div class="bg-white p-6 rounded-xl shadow-sm card-float text-reveal">
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-600 mb-2 counter" data-target="500">0</div>
+                            <div class="text-slate-600">Children Educated</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm card-float text-reveal">
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-users text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-600 mb-2 counter" data-target="50">0</div>
+                            <div class="text-slate-600">Volunteers</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm card-float text-reveal">
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-home text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-600 mb-2 counter" data-target="10">0</div>
+                            <div class="text-slate-600">Communities Served</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm card-float text-reveal">
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-calendar text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-600 mb-2 counter" data-target="5">0</div>
+                            <div class="text-slate-600">Years of Impact</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programs Section -->
+            <div class="py-16 relative">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-900 text-reveal">Our Programs</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-sm text-center card-float text-reveal">
+                            <div class="image-placeholder w-full h-32 mb-6"></div>
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-book text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-4 text-slate-900">Basic Education Program</h3>
+                            <p class="text-slate-600">Providing foundational literacy and numeracy skills to children who lack access to formal education.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-sm text-center card-float text-reveal">
+                            <div class="image-placeholder w-full h-32 mb-6"></div>
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-tools text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-4 text-slate-900">Skill Development Program</h3>
+                            <p class="text-slate-600">Teaching practical skills and vocational training to help students build sustainable livelihoods.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-sm text-center card-float text-reveal">
+                            <div class="image-placeholder w-full h-32 mb-6"></div>
+                            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-laptop text-blue-600 text-2xl pulse-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-4 text-slate-900">Digital Literacy Program</h3>
+                            <p class="text-slate-600">Bridging the digital divide by teaching computer skills and internet literacy to students.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="py-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
+                    <p class="text-xl mb-8 opacity-90">Join our community of dedicated volunteers and help transform lives through education</p>
+                    <button onclick="showSection('volunteer')" class="bg-white text-blue-600 px-8 py-3 rounded-xl font-semibold hover:bg-slate-50 transition-colors">
+                        Become a Volunteer
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT US SECTION -->
+        <section id="about" class="section-transition hidden">
+            <!-- Back Button -->
+            <button class="back-button" onclick="goBack('about')">
+                <i class="fas fa-arrow-left text-gray-600"></i>
+            </button>
+            
+            <!-- About Hero -->
+            <div class="hero-gradient text-white py-20">
+                <div class="container mx-auto px-4 text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">About Our Mission</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Founded in 2019 in Delhi, Basti Ki Pathshala is a certified NGO dedicated to providing quality education to underprivileged children and empowering communities through learning.</p>
+                    <div class="flex flex-wrap justify-center gap-6 text-lg">
+                        <div class="flex items-center"><i class="fas fa-calendar-alt mr-2"></i> Est. 2019</div>
+                        <div class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> Delhi, India</div>
+                        <div class="flex items-center"><i class="fas fa-certificate mr-2"></i> NGO Certified</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission & Vision -->
+            <div class="py-16 bg-gray-50">
+                <div class="container mx-auto px-4">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="flex items-center mb-6">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-bullseye text-blue-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800">Our Mission</h3>
+                            </div>
+                            <p class="text-gray-600 leading-relaxed">To provide quality education and learning opportunities to underprivileged children, empowering them with knowledge, skills, and confidence to break the cycle of poverty and build brighter futures.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="flex items-center mb-6">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-eye text-purple-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800">Our Vision</h3>
+                            </div>
+                            <p class="text-gray-600 leading-relaxed">A world where every child, regardless of their socio-economic background, has access to quality education and the opportunity to reach their full potential and contribute meaningfully to society.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Values -->
+            <div class="py-16">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Our Core Values</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="text-center p-6">
+                            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-heart text-red-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Compassion</h4>
+                            <p class="text-gray-600 text-sm">Caring deeply for every child's wellbeing and future</p>
+                        </div>
+                        <div class="text-center p-6">
+                            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-star text-yellow-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Excellence</h4>
+                            <p class="text-gray-600 text-sm">Striving for the highest quality in education and service</p>
+                        </div>
+                        <div class="text-center p-6">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-users text-green-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Community</h4>
+                            <p class="text-gray-600 text-sm">Building strong, supportive networks for lasting change</p>
+                        </div>
+                        <div class="text-center p-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-hands-helping text-blue-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Inclusivity</h4>
+                            <p class="text-gray-600 text-sm">Ensuring equal opportunities for all children</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Journey Timeline -->
+            <div class="py-16 bg-gray-50">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Our Journey</h2>
+                    <div class="max-w-3xl mx-auto">
+                        <div class="relative">
+                            <div class="timeline-item relative pl-12 pb-8">
+                                <div class="timeline-dot absolute left-0 top-2 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold">2019</div>
+                                <div class="bg-white p-6 rounded-lg shadow-md">
+                                    <h4 class="font-semibold text-lg mb-2">Foundation Established</h4>
+                                    <p class="text-gray-600">Basti Ki Pathshala was founded with a vision to provide quality education to underprivileged children in Delhi.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item relative pl-12 pb-8">
+                                <div class="timeline-dot absolute left-0 top-2 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold">2020</div>
+                                <div class="bg-white p-6 rounded-lg shadow-md">
+                                    <h4 class="font-semibold text-lg mb-2">Digital Initiative</h4>
+                                    <p class="text-gray-600">Launched our digital literacy program to bridge the technology gap during the pandemic.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item relative pl-12 pb-8">
+                                <div class="timeline-dot absolute left-0 top-2 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold">2022</div>
+                                <div class="bg-white p-6 rounded-lg shadow-md">
+                                    <h4 class="font-semibold text-lg mb-2">Expansion</h4>
+                                    <p class="text-gray-600">Expanded our reach to 10+ communities and introduced skill development programs.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item relative pl-12">
+                                <div class="timeline-dot absolute left-0 top-2 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold">2024</div>
+                                <div class="bg-white p-6 rounded-lg shadow-md">
+                                    <h4 class="font-semibold text-lg mb-2">Recognition</h4>
+                                    <p class="text-gray-600">Received recognition for our impact in education and community development, reaching 500+ children.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="py-16">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Meet Our Team</h2>
+                    <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+                            <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-user text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Priya Sharma</h4>
+                            <p class="text-blue-600 mb-2">Founder & Director</p>
+                            <p class="text-gray-600 text-sm">Leading our mission with passion and dedication to transform lives through education.</p>
+                        </div>
+                        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+                            <div class="w-24 h-24 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-user text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Rajesh Kumar</h4>
+                            <p class="text-green-600 mb-2">Program Manager</p>
+                            <p class="text-gray-600 text-sm">Overseeing our educational programs and ensuring quality delivery to all students.</p>
+                        </div>
+                        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+                            <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-user text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Anita Patel</h4>
+                            <p class="text-purple-600 mb-2">Volunteer Coordinator</p>
+                            <p class="text-gray-600 text-sm">Building and nurturing our volunteer community to maximize our collective impact.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Join Our Mission</h2>
+                    <p class="text-xl mb-8">Be part of our story and help us create more success stories</p>
+                    <button onclick="showSection('volunteer')" class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                        Become a Volunteer
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VOLUNTEER SECTION -->
+        <section id="volunteer" class="section-transition hidden">
+            <!-- Back Button -->
+            <button class="back-button" onclick="goBack('volunteer')">
+                <i class="fas fa-arrow-left text-gray-600"></i>
+            </button>
+            
+            <!-- Volunteer Hero -->
+            <div class="hero-gradient text-white py-20">
+                <div class="container mx-auto px-4 text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">Join Our Volunteer Family</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Make a meaningful impact in the lives of children and communities. Choose how you'd like to contribute to our mission.</p>
+                </div>
+            </div>
+
+            <!-- Volunteer Opportunities -->
+            <div class="py-16 bg-gray-50">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Volunteer Opportunities</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="volunteer-card bg-white p-6 rounded-lg shadow-lg text-center cursor-pointer">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-chalkboard-teacher text-blue-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Teaching Assistant</h4>
+                            <p class="text-gray-600 text-sm">Help with classroom activities and one-on-one student support</p>
+                        </div>
+                        <div class="volunteer-card bg-white p-6 rounded-lg shadow-lg text-center cursor-pointer">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-user-friends text-green-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Weekend Mentor</h4>
+                            <p class="text-gray-600 text-sm">Provide guidance and mentorship during weekend programs</p>
+                        </div>
+                        <div class="volunteer-card bg-white p-6 rounded-lg shadow-lg text-center cursor-pointer">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-bullhorn text-purple-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Community Outreach</h4>
+                            <p class="text-gray-600 text-sm">Help spread awareness and connect with local communities</p>
+                        </div>
+                        <div class="volunteer-card bg-white p-6 rounded-lg shadow-lg text-center cursor-pointer">
+                            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-hand-holding-heart text-orange-600 text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg mb-2">Fundraising Support</h4>
+                            <p class="text-gray-600 text-sm">Assist with fundraising events and donor relations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Volunteer Form -->
+            <div class="py-16">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <div id="volunteerForm" class="bg-white rounded-lg shadow-lg p-8">
+                        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Volunteer Application Form</h2>
+                        <form onsubmit="submitVolunteerForm(event)">
+                            <!-- Personal Information -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Personal Information</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">First Name *</label>
+                                        <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Last Name *</label>
+                                        <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Contact Information</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Email Address *</label>
+                                        <input type="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Phone Number *</label>
+                                        <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Details -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Additional Details</h3>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Age *</label>
+                                        <input type="number" min="16" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Occupation *</label>
+                                        <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">City *</label>
+                                        <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Availability -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Availability *</h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="availability" value="weekdays" required class="mr-2">
+                                        <span>Weekdays</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="availability" value="weekends" required class="mr-2">
+                                        <span>Weekends</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="availability" value="both" required class="mr-2">
+                                        <span>Both</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="availability" value="flexible" required class="mr-2">
+                                        <span>Flexible</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Areas of Interest -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Areas of Interest (Select all that apply)</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="teaching" class="mr-2">
+                                        <span>Teaching & Tutoring</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="events" class="mr-2">
+                                        <span>Event Organization</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="marketing" class="mr-2">
+                                        <span>Social Media & Marketing</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="fundraising" class="mr-2">
+                                        <span>Fundraising</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="admin" class="mr-2">
+                                        <span>Administrative Support</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="skills" class="mr-2">
+                                        <span>Skill Development Programs</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="arts" class="mr-2">
+                                        <span>Arts & Crafts</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" name="interests" value="sports" class="mr-2">
+                                        <span>Sports & Recreation</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Optional Fields -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Optional Information</h3>
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Previous Experience</label>
+                                        <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Tell us about any relevant volunteer or work experience"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Special Skills</label>
+                                        <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Any special skills or talents you'd like to share"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motivation -->
+                            <div class="mb-8">
+                                <label class="block text-gray-700 font-medium mb-2">Why do you want to volunteer with us? *</label>
+                                <textarea rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Share your motivation and what you hope to contribute to our mission"></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-colors">
+                                    Submit Application
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Success State -->
+                    <div id="successMessage" class="form-success bg-white rounded-lg shadow-lg p-8 text-center">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check text-green-600 text-3xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-4 text-gray-800">Thank You!</h2>
+                        <p class="text-xl text-gray-600 mb-6">Your volunteer application has been submitted successfully.</p>
+                        <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                            <p class="text-blue-800"><i class="fas fa-info-circle mr-2"></i>We will review your application and get back to you within 48 hours.</p>
+                        </div>
+                        <button onclick="resetForm()" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-colors">
+                            Submit Another Application
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white"></i>
+                        </div>
+                        <span class="text-lg font-bold">Basti Ki Pathshala</span>
+                    </div>
+                    <p class="text-slate-300">Empowering underprivileged children through quality education and creating brighter futures for communities.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="#" onclick="showSection('home')" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" onclick="showSection('about')" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" onclick="showSection('volunteer')" class="hover:text-white transition-colors">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Programs</h4>
+                    <ul class="space-y-2 text-slate-300">
+                        <li>Basic Education</li>
+                        <li>Skill Development</li>
+                        <li>Digital Literacy</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2 text-slate-300">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Delhi, India</p>
+                        <p><i class="fas fa-envelope mr-2"></i>info@bastikipathshala.org</p>
+                        <p><i class="fas fa-phone mr-2"></i>+91 98765 43210</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center text-slate-300">
+                <p>&copy; 2024 Basti Ki Pathshala. All rights reserved. | Registered NGO</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let navigationHistory = ['home'];
+        let currentBgColor = 0;
+        const bgColors = [
+            'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #ffffff 100%)',
+            'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #f8fafc 100%)',
+            'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)',
+            'linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #e2e8f0 100%)',
+            'linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 50%, #ffffff 100%)',
+            'linear-gradient(135deg, #f1f5f9 0%, #f8fafc 50%, #e2e8f0 100%)'
+        ];
+
+        // Navigation Functions
+        function showSection(sectionId) {
+            // Add to navigation history
+            if (navigationHistory[navigationHistory.length - 1] !== sectionId) {
+                navigationHistory.push(sectionId);
+            }
+            
+            // Hide all sections with fade out
+            const sections = ['home', 'about', 'volunteer'];
+            const currentSection = sections.find(section => !document.getElementById(section).classList.contains('hidden'));
+            
+            if (currentSection && currentSection !== sectionId) {
+                gsap.to(`#${currentSection}`, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        document.getElementById(currentSection).classList.add('hidden');
+                        showNewSection(sectionId);
+                    }
+                });
+            } else {
+                showNewSection(sectionId);
+            }
+            
+            // Update scroll indicator
+            updateScrollIndicator(sectionId);
+        }
+
+        function showNewSection(sectionId) {
+            // Show selected section with fade in
+            document.getElementById(sectionId).classList.remove('hidden');
+            gsap.fromTo(`#${sectionId}`, 
+                { opacity: 0, y: 20 }, 
+                { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+            );
+            
+            // Animate section content
+            animateSectionContent(sectionId);
+            
+            // Update active nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('text-blue-600');
+                link.classList.add('text-slate-600');
+            });
+            
+            // Change background color
+            changeBgColor();
+            
+            // Smooth scroll to top
+            gsap.to(window, { scrollTo: 0, duration: 0.8, ease: 'power2.inOut' });
+        }
+
+        function animateSectionContent(sectionId) {
+            const tl = gsap.timeline();
+            
+            // Reset all text-reveal elements
+            gsap.set('.text-reveal', { opacity: 0, y: 50 });
+            
+            if (sectionId === 'home') {
+                // Animate hero content
+                tl.fromTo('#home h1', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 })
+                  .fromTo('#home p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
+                  .fromTo('#home button', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, '-=0.3');
+                
+                // Animate stats cards with scroll trigger
+                setupScrollAnimations();
+            } else if (sectionId === 'about') {
+                // Animate about hero
+                tl.fromTo('#about h1', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 })
+                  .fromTo('#about p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.4');
+                
+                setupScrollAnimations();
+            } else if (sectionId === 'volunteer') {
+                // Animate volunteer hero
+                tl.fromTo('#volunteer h1', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 })
+                  .fromTo('#volunteer p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.4');
+                
+                setupScrollAnimations();
+            }
+        }
+
+        function setupScrollAnimations() {
+            // Clear existing ScrollTriggers
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            
+            // Animate text reveal elements
+            gsap.utils.toArray('.text-reveal').forEach((element, index) => {
+                gsap.fromTo(element, 
+                    { opacity: 0, y: 30, scale: 0.95 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 1.2,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: element,
+                            start: 'top 85%',
+                            end: 'bottom 20%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        delay: index * 0.08
+                    }
+                );
+            });
+            
+            // Animate counter numbers
+            gsap.utils.toArray('.counter').forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                gsap.fromTo(counter, 
+                    { textContent: 0 },
+                    {
+                        textContent: target,
+                        duration: 2.5,
+                        ease: 'power3.out',
+                        snap: { textContent: 1 },
+                        scrollTrigger: {
+                            trigger: counter,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        onUpdate: function() {
+                            counter.textContent = Math.ceil(this.targets()[0].textContent) + '+';
+                        }
+                    }
+                );
+            });
+            
+            // Parallax effect for background elements
+            gsap.utils.toArray('.parallax-bg').forEach(bg => {
+                gsap.to(bg, {
+                    yPercent: -50,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: bg.parentElement,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            });
+            
+            // Card float animations on scroll
+            gsap.utils.toArray('.card-float').forEach((card, index) => {
+                gsap.fromTo(card,
+                    { y: 30, opacity: 0, rotationY: -15 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        rotationY: 0,
+                        duration: 0.8,
+                        ease: 'back.out(1.7)',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        delay: index * 0.1
+                    }
+                );
+            });
+        }
+
+        function changeBgColor() {
+            currentBgColor = (currentBgColor + 1) % bgColors.length;
+            const scrollBg = document.querySelector('.scroll-bg');
+            
+            gsap.to(scrollBg, {
+                background: bgColors[currentBgColor],
+                duration: 1.5,
+                ease: 'power2.inOut'
+            });
+        }
+
+        function updateScrollIndicator(activeSection) {
+            const dots = document.querySelectorAll('.scroll-dot');
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === activeSection) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const isActive = mobileMenu.classList.contains('active');
+            
+            if (isActive) {
+                gsap.to(mobileMenu, {
+                    y: '-100%',
+                    duration: 0.3,
+                    ease: 'power2.inOut',
+                    onComplete: () => mobileMenu.classList.remove('active')
+                });
+            } else {
+                mobileMenu.classList.add('active');
+                gsap.fromTo(mobileMenu, 
+                    { y: '-100%' }, 
+                    { y: '0%', duration: 0.3, ease: 'power2.inOut' }
+                );
+            }
+        }
+
+        function goBack(currentSection) {
+            // Remove current section from history
+            if (navigationHistory[navigationHistory.length - 1] === currentSection) {
+                navigationHistory.pop();
+            }
+            
+            // Get previous section or default to home
+            const previousSection = navigationHistory[navigationHistory.length - 1] || 'home';
+            
+            // Navigate to previous section
+            showSection(previousSection);
+            
+            // Animate back button
+            const backButton = event.target.closest('button');
+            gsap.to(backButton, {
+                scale: 0.9,
+                duration: 0.1,
+                yoyo: true,
+                repeat: 1,
+                ease: 'power2.inOut'
+            });
+        }
+
+        // Form Functions
+        function submitVolunteerForm(event) {
+            event.preventDefault();
+            
+            // Animate form submission
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Button loading animation
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+            submitBtn.disabled = true;
+            
+            // Simulate form processing
+            setTimeout(() => {
+                // Fade out form
+                gsap.to('#volunteerForm', {
+                    opacity: 0,
+                    y: -30,
+                    duration: 0.5,
+                    onComplete: () => {
+                        document.getElementById('volunteerForm').style.display = 'none';
+                        document.getElementById('successMessage').classList.add('active');
+                        
+                        // Animate success message
+                        gsap.fromTo('#successMessage', 
+                            { opacity: 0, y: 30, scale: 0.9 }, 
+                            { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.7)' }
+                        );
+                        
+                        // Animate success elements
+                        gsap.fromTo('#successMessage .fa-check', 
+                            { scale: 0, rotation: -180 }, 
+                            { scale: 1, rotation: 0, duration: 0.8, delay: 0.3, ease: 'back.out(1.7)' }
+                        );
+                        
+                        // Reset button
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }, 1500);
+        }
+
+        function resetForm() {
+            // Animate out success message
+            gsap.to('#successMessage', {
+                opacity: 0,
+                y: -30,
+                duration: 0.4,
+                onComplete: () => {
+                    // Reset form
+                    document.querySelector('form').reset();
+                    
+                    // Show form and hide success message
+                    document.getElementById('volunteerForm').style.display = 'block';
+                    document.getElementById('successMessage').classList.remove('active');
+                    
+                    // Animate form back in
+                    gsap.fromTo('#volunteerForm', 
+                        { opacity: 0, y: 30 }, 
+                        { opacity: 1, y: 0, duration: 0.5 }
+                    );
+                }
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Initialize with home section
+            showSection('home');
+            
+            // Animate floating shapes
+            gsap.to('.shape-1', {
+                y: -20,
+                x: 10,
+                rotation: 360,
+                duration: 8,
+                ease: 'none',
+                repeat: -1,
+                yoyo: true
+            });
+            
+            gsap.to('.shape-2', {
+                y: 15,
+                x: -15,
+                rotation: -180,
+                duration: 10,
+                ease: 'none',
+                repeat: -1,
+                yoyo: true
+            });
+            
+            gsap.to('.shape-3', {
+                y: -25,
+                x: 20,
+                rotation: 270,
+                duration: 12,
+                ease: 'none',
+                repeat: -1,
+                yoyo: true
+            });
+            
+            // Magnetic button effects (desktop only)
+            if (window.innerWidth > 768) {
+                document.querySelectorAll('.magnetic-btn').forEach(btn => {
+                    btn.addEventListener('mousemove', (e) => {
+                        const rect = btn.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        
+                        gsap.to(btn, {
+                            x: x * 0.3,
+                            y: y * 0.3,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                    });
+                    
+                    btn.addEventListener('mouseleave', () => {
+                        gsap.to(btn, {
+                            x: 0,
+                            y: 0,
+                            duration: 0.5,
+                            ease: 'elastic.out(1, 0.3)'
+                        });
+                    });
+                });
+            }
+            
+            // Mobile touch feedback for buttons
+            document.querySelectorAll('button, .magnetic-btn').forEach(btn => {
+                btn.addEventListener('touchstart', () => {
+                    gsap.to(btn, {
+                        scale: 0.95,
+                        duration: 0.1,
+                        ease: 'power2.out'
+                    });
+                });
+                
+                btn.addEventListener('touchend', () => {
+                    gsap.to(btn, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: 'back.out(1.7)'
+                    });
+                });
+            });
+            
+            // Enhanced card hover effects (desktop only)
+            if (window.innerWidth > 768) {
+                document.querySelectorAll('.card-float').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        gsap.to(card, { 
+                            y: -15, 
+                            scale: 1.03, 
+                            rotationY: 5,
+                            duration: 0.4, 
+                            ease: 'power2.out' 
+                        });
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        gsap.to(card, { 
+                            y: 0, 
+                            scale: 1, 
+                            rotationY: 0,
+                            duration: 0.4, 
+                            ease: 'power2.out' 
+                        });
+                    });
+                });
+            }
+            
+            // Mobile touch interactions for cards
+            document.querySelectorAll('.card-float, .volunteer-card').forEach(card => {
+                let touchStartY = 0;
+                
+                card.addEventListener('touchstart', (e) => {
+                    touchStartY = e.touches[0].clientY;
+                    gsap.to(card, {
+                        scale: 0.98,
+                        duration: 0.2,
+                        ease: 'power2.out'
+                    });
+                });
+                
+                card.addEventListener('touchend', (e) => {
+                    gsap.to(card, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'back.out(1.7)'
+                    });
+                });
+            });
+            
+            // Mobile swipe navigation
+            let touchStartX = 0;
+            let touchStartY = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                if (!touchStartX || !touchStartY) return;
+                
+                const touchEndX = e.changedTouches[0].clientX;
+                const touchEndY = e.changedTouches[0].clientY;
+                
+                const deltaX = touchStartX - touchEndX;
+                const deltaY = touchStartY - touchEndY;
+                
+                // Only trigger swipe if horizontal movement is greater than vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                    const currentSection = getCurrentSection();
+                    const sections = ['home', 'about', 'volunteer'];
+                    const currentIndex = sections.indexOf(currentSection);
+                    
+                    if (deltaX > 0 && currentIndex < sections.length - 1) {
+                        // Swipe left - next section
+                        showSection(sections[currentIndex + 1]);
+                    } else if (deltaX < 0 && currentIndex > 0) {
+                        // Swipe right - previous section
+                        showSection(sections[currentIndex - 1]);
+                    }
+                }
+                
+                touchStartX = 0;
+                touchStartY = 0;
+            });
+            
+            function getCurrentSection() {
+                const sections = ['home', 'about', 'volunteer'];
+                return sections.find(section => !document.getElementById(section).classList.contains('hidden')) || 'home';
+            }
+            
+            // Scroll indicator functionality
+            document.querySelectorAll('.scroll-dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const section = dot.getAttribute('data-section');
+                    showSection(section);
+                });
+            });
+            
+            // Enhanced scroll effects with mobile optimization
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+            
+            function updateScroll() {
+                const currentScrollY = window.scrollY;
+                const header = document.querySelector('header');
+                
+                // Header hide/show
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    gsap.to(header, { y: -100, duration: 0.3, ease: 'power2.inOut' });
+                } else {
+                    gsap.to(header, { y: 0, duration: 0.3, ease: 'power2.inOut' });
+                }
+                
+                // Parallax effect for floating shapes (reduced on mobile for performance)
+                if (window.innerWidth > 768) {
+                    const scrollPercent = currentScrollY / (document.body.scrollHeight - window.innerHeight);
+                    gsap.to('.shape-1', { y: -20 + (scrollPercent * 100), duration: 0.3 });
+                    gsap.to('.shape-2', { y: 15 - (scrollPercent * 80), duration: 0.3 });
+                    gsap.to('.shape-3', { y: -25 + (scrollPercent * 120), duration: 0.3 });
+                }
+                
+                lastScrollY = currentScrollY;
+                ticking = false;
+            }
+            
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateScroll);
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Cursor trail effect (desktop only)
+            if (window.innerWidth > 768) {
+                let mouseX = 0, mouseY = 0;
+                let trailX = 0, trailY = 0;
+                
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                
+                function animateTrail() {
+                    trailX += (mouseX - trailX) * 0.1;
+                    trailY += (mouseY - trailY) * 0.1;
+                    
+                    // Update floating shapes to follow cursor subtly
+                    gsap.to('.shape-1', {
+                        x: (trailX - window.innerWidth / 2) * 0.02,
+                        duration: 1,
+                        ease: 'power2.out'
+                    });
+                    
+                    gsap.to('.shape-2', {
+                        x: (trailX - window.innerWidth / 2) * -0.015,
+                        duration: 1.2,
+                        ease: 'power2.out'
+                    });
+                    
+                    gsap.to('.shape-3', {
+                        x: (trailX - window.innerWidth / 2) * 0.025,
+                        duration: 0.8,
+                        ease: 'power2.out'
+                    });
+                    
+                    requestAnimationFrame(animateTrail);
+                }
+                animateTrail();
+            }
+            
+            // Mobile orientation change handling
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    // Recalculate animations after orientation change
+                    ScrollTrigger.refresh();
+                    
+                    // Reset any transforms that might be broken
+                    gsap.set('.shape-1, .shape-2, .shape-3', { clearProps: 'all' });
+                    
+                    // Restart floating animations
+                    gsap.to('.shape-1', {
+                        y: -20,
+                        x: 10,
+                        rotation: 360,
+                        duration: 8,
+                        ease: 'none',
+                        repeat: -1,
+                        yoyo: true
+                    });
+                    
+                    gsap.to('.shape-2', {
+                        y: 15,
+                        x: -15,
+                        rotation: -180,
+                        duration: 10,
+                        ease: 'none',
+                        repeat: -1,
+                        yoyo: true
+                    });
+                    
+                    gsap.to('.shape-3', {
+                        y: -25,
+                        x: 20,
+                        rotation: 270,
+                        duration: 12,
+                        ease: 'none',
+                        repeat: -1,
+                        yoyo: true
+                    });
+                }, 500);
+            });
+            
+            // Mobile viewport height fix
+            function setVH() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            setVH();
+            window.addEventListener('resize', setVH);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuButton = event.target.closest('button');
+            
+            if (!menuButton && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968f9477620ca74f',t:'MTc1NDE1ODcyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
